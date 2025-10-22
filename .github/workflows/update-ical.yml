@@ -19,10 +19,13 @@ jobs:
           echo "END:VCALENDAR" >> booking.ics
           cat booking.ics
 
-      - name: Commit e push se ci sono modifiche
+           - name: Update fake ICS content
         run: |
+          echo "BEGIN:VCALENDAR" > booking.txt
+          echo "VEVENT: Test aggiornamento automatico $(date -u)" >> booking.txt
+          echo "END:VCALENDAR" >> booking.txt
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-          git add booking.ics
-          git commit -m "Aggiornamento automatico ICS (test)" || echo "Nessuna modifica da committare"
+          git add booking.txt
+          git commit -m "Aggiornamento automatico test $(date -u)" || echo "Nessuna modifica da committare"
           git push
