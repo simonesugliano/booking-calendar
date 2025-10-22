@@ -81,6 +81,17 @@ In attesa del link ICS reale del cliente per l’attivazione definitiva.
 
 ---
 
+---
+
+## Versione reale (privata)
+La versione pubblica di questo progetto mostra la logica di automazione e sncronizzazione
+tra GitHub Actions e GitHub Pages, utilizzando un file ICS di test.
+
+La versione reale, attiva su un repository privato, è collegata al calendario ufficiale
+Booking.com della struttura ricettiva, per proteggere i dati sensibili e le chiavi di autenticazione.
+
+---
+
 ## Riflessioni personali e competenze apprese  
 
 Questo progetto nasce da un’esigenza reale: semplificare la gestione delle disponibilità di n agriturismo,  
