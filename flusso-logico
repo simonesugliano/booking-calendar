@@ -1,0 +1,35 @@
+---
+
+## Schema logico del sitema
+
+```text
+┌─────────────────────────────────────────────────────┐
+│                Booking.com Calendar (ICS)           │
+│  (file .ics esportato con le prenotazioni reali)    │
+└─────────────────────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────┐
+│                GitHub Actions (cron job)            │
+│ - Esegue ogni 6 ore                                 │
+│ - Scarica il file ICS con cURL                      │
+│ - Aggiorna booking.ics nel repository               │
+│ - Fa commit e push automatico                       │
+└─────────────────────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────┐
+│                GitHub Pages                         │
+│ - Pubblica il file aggiornato                       │
+│ - Accessibile via HTTPS                             │
+│   → https://simonesugliano.github.io/               │
+│      booking-calendar/booking.ics                    │
+└─────────────────────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────┐
+│                Sito Web Agriturismo                 │
+│ - Legge il file ICS pubblico                        │
+│ - Mostra solo le date disponibili                   │
+│ - Nessun rischio di doppia prenotazione             │
+└─────────────────────────────────────────────────────┘
