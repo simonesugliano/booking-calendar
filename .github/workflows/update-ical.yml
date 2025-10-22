@@ -12,14 +12,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Scrivi un nuovo ICS di test
-        run: |
-          echo "BEGIN:VCALENDAR" > booking.ics
-          echo "VEVENT: Test aggiornamento automatico $(date)" >> booking.ics
-          echo "END:VCALENDAR" >> booking.ics
-          cat booking.ics
-
-           - name: Update fake ICS content
+  
+      - name: Update fake ICS content
         run: |
           echo "BEGIN:VCALENDAR" > booking.txt
           echo "VEVENT: Test aggiornamento automatico $(date -u)" >> booking.txt
