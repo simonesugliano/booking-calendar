@@ -83,12 +83,11 @@ In attesa del link ICS reale del cliente per l’attivazione definitiva.
 
 ---
 
-## Versione reale (privata)
-La versione pubblica di questo progetto mostra la logica di automazione e sncronizzazione
-tra GitHub Actions e GitHub Pages, utilizzando un file ICS di test.
+## Dati sensibili (privata)
 
-La versione reale, attiva su un repository privato, è collegata al calendario ufficiale
-Booking.com della struttura ricettiva, per proteggere i dati sensibili e le chiavi di autenticazione.
+L’URL del calendario Booking reale è gestito tramite **GitHub Secrets.**
+In questo modo il workflow può aggiornare i dati automaticamente
+senza esporre informazioni sensibli nel codice publico.
 
 ---
 
