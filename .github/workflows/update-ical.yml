@@ -13,10 +13,11 @@ jobs:
         uses: actions/checkout@v4
 
   
-      - name: Update fake ICS content
+           - name: Update file (convert UTC → Italy time)
         run: |
+          TZ="Europe/Rome"
           echo "BEGIN:VCALENDAR" > booking.txt
-          echo "VEVENT: Test aggiornamento automatico $(date -u)" >> booking.txt
+          echo "VEVENT: Test aggiornamento automatico $(date '+%a %b %d %H:%M:%S %Z %Y')" >> booking.txt
           echo "END:VCALENDAR" >> booking.txt
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
