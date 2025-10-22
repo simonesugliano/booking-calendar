@@ -78,3 +78,24 @@ Un sistema **completamente automatico**, affidabile e “serverless”, capace d
 ## Stato del progetto  
 Test completato con simulazione ICS e notifiche automatiche.  
 In attesa del link ICS reale del cliente per l’attivazione definitiva.  
+
+---
+
+## Riflessioni personali e competenze apprese  
+
+Questo progetto nasce da un’esigenza reale: semplificare la gestione delle disponibilità di n agriturismo,  
+mantenendo l’autonomia del cliente e riducendo al minimo la manutenzione tenica.
+
+Durante la realizzazione ho approfondito diversi aspetti pratici e concettuali:
+
+- **Automazione con GitHub Actions:** pianificazione di jobcron, gestione del flusso di commit e deploy automatico.  
+- **Integrazione serverless:** comprensione di come GitHub Pages possa fungere da hosting “backendless” per dati inamici.  
+- **Gestione file ICS (iCalendar):** standard di sincronizzazione usato da Booking e altri gestionali.  
+- **Problem olving tecnico:** analisi di più approcci (backend Node.js, fetch lato client, API proxy) e scelta della soluzione più sostenibile.  
+- **Sicurezza e scalabilità:** costruire un sistema che funziona 24/7 senza costi di server, mantenendo pieno controllo dei dati.
+
+Il risultato è un flusso di lavoro completamente automatico e trasparente,  
+che combina semplicità, sicurezza e affidabilità: un perfetto esempio di come una buona architettura possa risolvere un problema reale in modo elegante ed efficiente.
+
+---
+
