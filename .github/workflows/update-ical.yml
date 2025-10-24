@@ -18,15 +18,15 @@ jobs:
 
       - name: Download Berta
         run: |
-          if [ -n "${{ secrets.ICS_URL_BERTA }}" ]; then
-            curl -fsSL "${{ secrets.ICS_URL_BERTA }}" -o ics/berta.ics
+          if [ -n "${{secrets.ICS_URL_BERTA}}" ]; then
+            curl -fsSL "${{secrets.ICS_URL_BERTA}}" -o ics/berta.ics
           else
             echo "ICS_URL_BERTA non impostato, salto."
           fi
 
       - name: Download Fede
         run: |
-          if [ -n "${{ secrets.ICS_URL_FEDE }}" ]; then
+          if [ -n "${{secrets.ICS_URL_FEDE}}" ]; then
             curl -fsSL "${{ secrets.ICS_URL_FEDE }}" -o ics/fede.ics
           else
             echo "ICS_URL_FEDE non impostato, salto."
