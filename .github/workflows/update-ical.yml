@@ -2,7 +2,7 @@ name: Fetch Booking ICS Calendars
 
 on:
   schedule:
-    - cron: "0 * * * *"   # ogni ora
+    - cron: "0 */6 * * *"   # ogni 6 ora
   workflow_dispatch:
 
 jobs:
