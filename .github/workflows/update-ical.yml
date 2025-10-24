@@ -2,12 +2,13 @@ name: Fetch Booking ICS Calendars
 
 on:
   schedule:
-    - cron: "0 */6 * * *"   # ogni 6 ora
+    - cron: "0 */6 * * *"   # ogni 6 ore
   workflow_dispatch:
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -16,20 +17,36 @@ jobs:
         run: mkdir -p ics
 
       - name: Download Berta
-        if: ${{ secrets.ICS_URL_BERTA != '' }}
-        run: curl -fsSL "${{ secrets.ICS_URL_BERTA }}" -o ics/berta.ics
+        run: |
+          if [ -n "${{ secrets.ICS_URL_BERTA }}" ]; then
+            curl -fsSL "${{ secrets.ICS_URL_BERTA }}" -o ics/berta.ics
+          else
+            echo "ICS_URL_BERTA non impostato, salto."
+          fi
 
       - name: Download Fede
-        if: ${{ secrets.ICS_URL_FEDE != '' }}
-        run: curl -fsSL "${{ secrets.ICS_URL_FEDE }}" -o ics/fede.ics
+        run: |
+          if [ -n "${{ secrets.ICS_URL_FEDE }}" ]; then
+            curl -fsSL "${{ secrets.ICS_URL_FEDE }}" -o ics/fede.ics
+          else
+            echo "ICS_URL_FEDE non impostato, salto."
+          fi
 
       - name: Download Fabi
-        if: ${{ secrets.ICS_URL_FABI != '' }}
-        run: curl -fsSL "${{ secrets.ICS_URL_FABI }}" -o ics/fabi.ics
+        run: |
+          if [ -n "${{ secrets.ICS_URL_FABI }}" ]; then
+            curl -fsSL "${{ secrets.ICS_URL_FABI }}" -o ics/fabi.ics
+          else
+            echo "ICS_URL_FABI non impostato, salto."
+          fi
 
       - name: Download Vita
-        if: ${{ secrets.ICS_URL_VITA != '' }}
-        run: curl -fsSL "${{ secrets.ICS_URL_VITA }}" -o ics/vita.ics
+        run: |
+          if [ -n "${{ secrets.ICS_URL_VITA }}" ]; then
+            curl -fsSL "${{ secrets.ICS_URL_VITA }}" -o ics/vita.ics
+          else
+            echo "ICS_URL_VITA non impostato, salto."
+          fi
 
       - name: Commit and push updated ICS files
         run: |
