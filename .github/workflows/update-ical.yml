@@ -47,6 +47,13 @@ jobs:
           else
             echo "ICS_URL_VITA non impostato, salto."
           fi
+     - name: Download Bertorella
+        run: |
+          if [ -n "${{ secrets.ICS_URL_BERTORELLA }}" ]; then
+            curl -fsSL "${{ secrets.ICS_URL_BERTORELLA }}" -o ics/bertorella.ics
+          else
+            echo "ICS_URL_BERTORELLA non impostato, salto."
+          fi
 
       - name: Commit and push updated ICS files
         run: |
