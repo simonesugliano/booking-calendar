@@ -2,23 +2,27 @@ name: Fetch Booking ICS Calendars
 
 on:
   schedule:
-    - cron: "0 */6 * * *"   # ogni 6 ore
-  workflow_dispatch:
+    - cron: "0 * * * *"   # Esegui ogni ora
+  workflow_dispatch:       # ermette esecuzione manuale da GitHub Actions
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
 
     steps:
+      # 🔹 Clona il repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 🔹 Crea la cartella ICS se non esiste
       - name: Create ICS directory
         run: mkdir -p ics
 
+      # 🔹 Scarica i file ICS di ogni camera (usando i segreti impostati)
       - name: Download Berta
         run: |
           if [ -n "${{ secrets.ICS_URL_BERTA }}" ]; then
+            echo "⬇️ Scarico ICS_URL_BERTA..."
             curl -fsSL "${{ secrets.ICS_URL_BERTA }}" -o ics/berta.ics
           else
             echo "ICS_URL_BERTA non impostato, salto."
@@ -27,6 +31,7 @@ jobs:
       - name: Download Fede
         run: |
           if [ -n "${{ secrets.ICS_URL_FEDE }}" ]; then
+            echo "Scarico ICS_URL_FEDE..."
             curl -fsSL "${{ secrets.ICS_URL_FEDE }}" -o ics/fede.ics
           else
             echo "ICS_URL_FEDE non impostato, salto."
@@ -35,6 +40,7 @@ jobs:
       - name: Download Fabi
         run: |
           if [ -n "${{ secrets.ICS_URL_FABI }}" ]; then
+            echo "Scarico ICS_URL_FABI..."
             curl -fsSL "${{ secrets.ICS_URL_FABI }}" -o ics/fabi.ics
           else
             echo "ICS_URL_FABI non impostato, salto."
@@ -43,6 +49,7 @@ jobs:
       - name: Download Vita
         run: |
           if [ -n "${{ secrets.ICS_URL_VITA }}" ]; then
+            echo "Scarico ICS_URL_VITA..."
             curl -fsSL "${{ secrets.ICS_URL_VITA }}" -o ics/vita.ics
           else
             echo "ICS_URL_VITA non impostato, salto."
@@ -51,15 +58,22 @@ jobs:
       - name: Download Bertorella
         run: |
           if [ -n "${{ secrets.ICS_URL_BERTORELLA }}" ]; then
+            echo "Scarico ICS_URL_BERTORELLA..."
             curl -fsSL "${{ secrets.ICS_URL_BERTORELLA }}" -o ics/bertorella.ics
           else
             echo "ICS_URL_BERTORELLA non impostato, salto."
           fi
 
+      # 🔹 Commit solo se ci sono modifiche reali
       - name: Commit and push updated ICS files
         run: |
           git config user.name "actions-user"
           git config user.email "actions@users.noreply.github.com"
           git add -A
-          git commit -m "Forza commit iniziale ICS $(TZ='Europe/Rome' date '+%Y-%m-%d %H:%M:%S %Z')" || true
-          git push || true
+          if git diff --cached --quiet; then
+            echo "Nessuna modifica negli ICS, nessun commit necessario."
+          else
+            echo "Modifiche trovate — eseguo commit e push..."
+            git commit -m "Aggiornamento ICS $(TZ='Europe/Rome' date '+%Y-%m-%d %H:%M:%S %Z')"
+            git push
+          fi
