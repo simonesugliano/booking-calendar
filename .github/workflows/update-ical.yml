@@ -1,27 +1,44 @@
-name: Update Booking iCal (test)
+name: Fetch Booking ICS Calendars
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: '0 */6 * * *'  # Ogni 6 ore
+    - cron: "0 * * * *"   # ogni ora
+  workflow_dispatch:
 
 jobs:
-  update:
+  fetch:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Update file (ora italiana)
-        run: |
-          echo "BEGIN:VCALENDAR" > booking.txt
-          echo "VEVENT: Test aggiornamento automatico $(TZ='Europe/Rome' date '+%a %b %d %H:%M:%S %Z %Y')" >> booking.txt
-          echo "END:VCALENDAR" >> booking.txt
+      - name: Create ICS directory
+        run: mkdir -p ics
 
-      - name: Commit e push aggiornamento
+      - name: Download Berta
+        if: ${{ secrets.ICS_URL_BERTA != '' }}
+        run: curl -fsSL "${{ secrets.ICS_URL_BERTA }}" -o ics/berta.ics
+
+      - name: Download Fede
+        if: ${{ secrets.ICS_URL_FEDE != '' }}
+        run: curl -fsSL "${{ secrets.ICS_URL_FEDE }}" -o ics/fede.ics
+
+      - name: Download Fabi
+        if: ${{ secrets.ICS_URL_FABI != '' }}
+        run: curl -fsSL "${{ secrets.ICS_URL_FABI }}" -o ics/fabi.ics
+
+      - name: Download Vita
+        if: ${{ secrets.ICS_URL_VITA != '' }}
+        run: curl -fsSL "${{ secrets.ICS_URL_VITA }}" -o ics/vita.ics
+
+      - name: Commit and push updated ICS files
         run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add booking.txt
-          git commit -m "Aggiornamento automatico test $(TZ='Europe/Rome' date '+%Y-%m-%d %H:%M:%S %Z')"
-          git push
+          if ! git diff --quiet; then
+            git config user.name "actions-user"
+            git config user.email "actions@users.noreply.github.com"
+            git add ics/*.ics
+            git commit -m "Aggiornamento automatico ICS $(TZ='Europe/Rome' date '+%Y-%m-%d %H:%M:%S %Z')"
+            git push
+          else
+            echo "Nessun aggiornamento ICS"
+          fi
